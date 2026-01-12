@@ -299,3 +299,18 @@ SELECT Asiakkaat.nimi, Asiakkaat.saldo
 FROM Asiakkaat
 WHERE saldo < ANY (SELECT yhteishinta FROM Tilauksen_rivit)
 HAVING saldo > 200;
+
+--===========================================================================================
+
+-- SQL INSERT INTO SELECT Statement
+/*
+✅ INSERT INTO SELECT kopioi dataa yhdestä taulusta toiseen. 
+✅ Tämä vaatii, että lähde- ja kohdetaulujen tietotyypit vastaavat toisiaan. 
+✅ Käytetään usein varmuuskopiointiin, tietojen siirtämiseen tai raporttien luomiseen.
+
+*/
+
+-- ArkistoidutTilaukset-taulukko täytyy luoda ensin, jotta INSERT INTO SELECT toimii. Jos taulukkoa ei ole olemassa, kysely aiheuttaa virheen. Tämä toimii kuin backup prosessi, mutta kopsaa nykyisen Tilauksen-taulukon dataa ja se liittää sinne jos on luonut uuden X- taulukkon
+INSERT INTO ArkistoidutTilaukset (id, asiakas_id, tilaus_pvm, toimitus_status, maksutapa_id)
+SELECT id, asiakas_id, tilaus_pvm, toimitus_status, maksutapa_id FROM Tilaukset;
+
